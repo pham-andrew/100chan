@@ -1,6 +1,6 @@
 const express = require("express");
 var pg = require('pg')
-var db = new pg.Client('postgres://aaiwujkv:WQvTb38bOIzRO_lUQOrdvJqc3Qb6YQi7@kashin.db.elephantsql.com/aaiwujkv')
+var db = new pg.Client('postgres://aaiwujkv:Zwy0d9yjcLN__D8HD03omUtJGR6jbI1Z@kashin.db.elephantsql.com/aaiwujkv')
 db.connect()
 
 const PORT = process.env.PORT || 3001;
