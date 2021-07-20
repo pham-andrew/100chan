@@ -10,7 +10,7 @@ function App() {
       console.log("running")
       await fetch("http://localhost:3001/api")
         .then((res) => res.json())
-        .then((data) => setData(data.message));
+        .then((data) => setData(data.content));
       }
     f()
   }, []);

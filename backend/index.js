@@ -1,4 +1,7 @@
 const express = require("express");
+var pg = require('pg')
+var db = new pg.Client('postgres://aaiwujkv:WQvTb38bOIzRO_lUQOrdvJqc3Qb6YQi7@kashin.db.elephantsql.com/aaiwujkv')
+db.connect()
 
 const PORT = process.env.PORT || 3001;
 
@@ -14,8 +17,12 @@ app.use(function(req, res, next) {
 });
 
 app.get("/api", (req, res) => {
-    res.json({ message: "Hello from server!" });
-  });
+    db.query('select * from posts where id = 1;')
+    .then(data => {
+        console.log("sending: " + data.rows)
+        res.json(data.rows[0])
+    })
+});
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
