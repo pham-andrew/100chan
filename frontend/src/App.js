@@ -172,7 +172,7 @@ export default function App() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            100chan
+            4ch
           </Typography>
           <IconButton color="inherit" onClick={handleDialogOpen}>
             <Badge color="secondary">
