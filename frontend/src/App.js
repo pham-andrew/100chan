@@ -308,7 +308,7 @@ export default function App() {
                   <Typography>{p.content}</Typography>
                   </Grid>
                   <Grid item xs={2}>
-                  <IconButton size={'small'} onClick={handleReplyOpen}>
+                  <IconButton size={'small'} onClick={()=>handleReplyOpen(p.id)}>
                     <ReplyIcon />
                   </IconButton>
                   <Dialog onClose={()=>handleReplyClose(p.id)} open={replyOpen[p.id]}>
