@@ -41,6 +41,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import ReplyIcon from '@material-ui/icons/Reply';
 
 const drawerWidth = 240;
 
@@ -114,6 +115,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: theme.spacing(2),
+    marginBottom: theme.spacing(2),
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
@@ -134,33 +136,45 @@ export default function App() {
     setDrawerOpen(false);
   };
 
-  const [dialogOpen, setDialogOpen] = React.useState(false);
-  const handleDialogOpen = () => {
-    setDialogOpen(true);
+  const [postOpen, setPostOpen] = React.useState(false);
+  const handlePostOpen = () => {
+    setPostOpen(true);
   };
-  const handleDialogClose = () => {
-    setDialogOpen(false);
+  const handlePostClose = () => {
+    setPostOpen(false);
   };
   const post = () => {
 
-    setDialogOpen(false);
+    setPostOpen(false);
+  };
+
+  const [replyOpen, setReplyOpen] = React.useState(false);
+  const handleReplyOpen = () => {
+    setReplyOpen(true);
+  };
+  const handleReplyClose = () => {
+    setReplyOpen(false);
+  };
+  const reply = () => {
+
+    setReplyOpen(false);
   };
 
   const [data, setData] = React.useState(null);
 
   useEffect(() => {
     async function f(){
-      console.log("running")
       await fetch("http://localhost:3001/api")
         .then((res) => res.json())
-        .then((data) => setData(data.content));
+        .then((data) => setData(data));
       }
+    console.log(data)
     f()
   }, []);
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
+      {/* TOP BAR */}
       <AppBar position="absolute" className={clsx(classes.appBar, drawerOpen && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
           <IconButton
@@ -174,12 +188,13 @@ export default function App() {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             4ch
           </Typography>
-          <IconButton color="inherit" onClick={handleDialogOpen}>
+          <IconButton color="inherit" onClick={handlePostOpen}>
             <Badge color="secondary">
               <AddCircleIcon />
             </Badge>
           </IconButton>
-          <Dialog open={dialogOpen} onClose={handleDialogClose}>
+          {/* POST DIALOG */}
+          <Dialog open={postOpen} onClose={handlePostClose}>
             <DialogTitle>Post</DialogTitle>
             <DialogContent>
               <DialogContentText>
@@ -208,16 +223,17 @@ export default function App() {
               <TextField autoFocus label="Enter your post content here" fullWidth />
             </DialogContent>
             <DialogActions>
-              <Button onClick={handleDialogClose} color="primary">
+              <Button onClick={handlePostClose} color="primary">
                 Cancel
               </Button>
-              <Button onClick={handleDialogClose} color="primary">
+              <Button onClick={handlePostClose} color="primary">
                 Post
               </Button>
             </DialogActions>
           </Dialog>
         </Toolbar>
       </AppBar>
+      {/* LEFT DRAWER */}
       <Drawer
         variant="permanent"
         classes={{
@@ -285,17 +301,41 @@ export default function App() {
         </List>
         <Divider />
       </Drawer>
+      {/* CENTER BODY */}
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-            {/* Recent Orders */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <Typography>{data}</Typography>
-              </Paper>
-            </Grid>
-          </Grid>
+          {data.map((p) => (
+            <Paper className={classes.paper}>
+              <Grid container spacing={3}>
+                <Grid item xs={10}>
+                  <Typography>{p.content}</Typography>
+                  </Grid>
+                  <Grid item xs={2}>
+                  <IconButton size={'small'} onClick={handleReplyOpen}>
+                    <ReplyIcon />
+                  </IconButton>
+                  <Dialog open={replyOpen} onClose={handleReplyClose}>
+                    <DialogTitle>Reply</DialogTitle>
+                    <DialogContent>
+                      <DialogContentText>
+                        Create a reply below. Ensure you read the rules of before replying.
+                      </DialogContentText>
+                      <TextField autoFocus label="Enter your reply here" fullWidth />
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={handleReplyClose} color="primary">
+                        Cancel
+                      </Button>
+                      <Button onClick={handleReplyClose} color="primary">
+                        Reply
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
+                </Grid>
+              </Grid>
+            </Paper>
+          ))}
           <Box pt={4}>
             <Typography variant="body2" color="textSecondary" align="center">
               {'Copyright © '}
