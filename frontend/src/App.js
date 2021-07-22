@@ -320,10 +320,10 @@ export default function App() {
                       <TextField autoFocus label="Enter your reply here" fullWidth />
                     </DialogContent>
                     <DialogActions>
-                      <Button onClick={handleReplyClose(p.id)} color="primary">
+                      <Button color="primary">
                         Cancel
                       </Button>
-                      <Button onClick={handleReplyClose(p.id)} color="primary">
+                      <Button color="primary">
                         Reply
                       </Button>
                     </DialogActions>
