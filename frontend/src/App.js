@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import Box from '@material-ui/core/Box';
 import AppBar from '@material-ui/core/AppBar';
@@ -128,6 +127,16 @@ const useStyles = makeStyles((theme) => ({
 export default function App() {
   const classes = useStyles();
 
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    async function f(){
+      await fetch("http://localhost:3001/api")
+        .then((res) => res.json())
+        .then((data) => setData(data));
+    }
+    f()
+  }, []);
+
   const [drawerOpen, setDrawerOpen] = React.useState(true);
   const handleDrawerOpen = () => {
     setDrawerOpen(true);
@@ -148,29 +157,16 @@ export default function App() {
     setPostOpen(false);
   };
 
-  const [replyOpen, setReplyOpen] = React.useState(false);
-  const handleReplyOpen = () => {
-    setReplyOpen(true);
+  const [replyOpen, setReplyOpen] = useState({});
+  const handleReplyOpen = (n) => {
+    setReplyOpen({...replyOpen, [n]: true});
   };
-  const handleReplyClose = () => {
-    setReplyOpen(false);
+  const handleReplyClose = (n) => {
+    setReplyOpen({...replyOpen, [n]: false});
   };
   const reply = () => {
-
-    setReplyOpen(false);
+    //TODO
   };
-
-  const [data, setData] = React.useState(null);
-
-  useEffect(() => {
-    async function f(){
-      await fetch("http://localhost:3001/api")
-        .then((res) => res.json())
-        .then((data) => setData(data));
-      }
-    console.log(data)
-    f()
-  }, []);
 
   return (
     <div className={classes.root}>
@@ -301,11 +297,11 @@ export default function App() {
         </List>
         <Divider />
       </Drawer>
-      {/* CENTER BODY */}
+      {/* BODY */}
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          {data.map((p) => (
+          {data && data.map((p) => (
             <Paper className={classes.paper}>
               <Grid container spacing={3}>
                 <Grid item xs={10}>
@@ -315,19 +311,19 @@ export default function App() {
                   <IconButton size={'small'} onClick={handleReplyOpen}>
                     <ReplyIcon />
                   </IconButton>
-                  <Dialog open={replyOpen} onClose={handleReplyClose}>
+                  <Dialog onClose={()=>handleReplyClose(p.id)} open={replyOpen[p.id]}>
                     <DialogTitle>Reply</DialogTitle>
                     <DialogContent>
                       <DialogContentText>
-                        Create a reply below. Ensure you read the rules of before replying.
+                        {p.content}
                       </DialogContentText>
                       <TextField autoFocus label="Enter your reply here" fullWidth />
                     </DialogContent>
                     <DialogActions>
-                      <Button onClick={handleReplyClose} color="primary">
+                      <Button onClick={handleReplyClose(p.id)} color="primary">
                         Cancel
                       </Button>
-                      <Button onClick={handleReplyClose} color="primary">
+                      <Button onClick={handleReplyClose(p.id)} color="primary">
                         Reply
                       </Button>
                     </DialogActions>
