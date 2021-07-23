@@ -127,6 +127,49 @@ const useStyles = makeStyles((theme) => ({
 export default function App() {
   const classes = useStyles();
 
+  const [drawerOpen, setDrawerOpen] = React.useState(true);
+  const handleDrawerOpen = () => {
+    setDrawerOpen(true);
+  };
+  const handleDrawerClose = () => {
+    setDrawerOpen(false);
+  };
+
+  const [postOpen, setPostOpen] = React.useState(false);
+  const handlePostOpen = () => {
+    setPostOpen(true);
+  };
+  const handlePostClose = () => {
+    setPostOpen(false);
+  };
+  const [postBoard, setPostBoard] = useState("")
+  const [postContent, setPostContent] = useState("")
+  const post = () => {
+    console.log("posting " + postBoard)
+    const boardNames = ["random", "videogames", "anime", "music", "fitness", "weapons", "science", "news"]
+    fetch('http://localhost:3001/post', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+          content: postContent,
+          board: boardNames[postBoard-1]
+      })
+    })
+    setPostOpen(false);
+  };
+
+  const [replyOpen, setReplyOpen] = useState({});
+  const handleReplyOpen = (n) => {
+    setReplyOpen({...replyOpen, [n]: true});
+  };
+  const handleReplyClose = (n) => {
+    setReplyOpen({...replyOpen, [n]: false});
+  };
+  const reply = () => {
+    //TODO
+  };
+
   const [board, setBoard] = useState("random")
   const [data, setData] = useState(null);
   useEffect(() => {
@@ -186,48 +229,7 @@ export default function App() {
       sci()
     if(board==='news')
       news()
-  }, [board]);
-
-  const [drawerOpen, setDrawerOpen] = React.useState(true);
-  const handleDrawerOpen = () => {
-    setDrawerOpen(true);
-  };
-  const handleDrawerClose = () => {
-    setDrawerOpen(false);
-  };
-
-  const [postOpen, setPostOpen] = React.useState(false);
-  const handlePostOpen = () => {
-    setPostOpen(true);
-  };
-  const handlePostClose = () => {
-    setPostOpen(false);
-  };
-  const [postBoard, setPostBoard] = useState("")
-  const [postContent, setPostContent] = useState("")
-  const post = () => {
-    fetch('http://localhost:3001/post', {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-          content: postContent,
-          board: postBoard
-      })
-    })
-    setPostOpen(false);
-  };
-
-  const [replyOpen, setReplyOpen] = useState({});
-  const handleReplyOpen = (n) => {
-    setReplyOpen({...replyOpen, [n]: true});
-  };
-  const handleReplyClose = (n) => {
-    setReplyOpen({...replyOpen, [n]: false});
-  };
-  const reply = () => {
-    //TODO
-  };
+  }, [board, postOpen]);
 
   return (
     <div className={classes.root}>
@@ -283,7 +285,7 @@ export default function App() {
               <Button onClick={handlePostClose} color="primary">
                 Cancel
               </Button>
-              <Button onClick={()=>post} color="primary">
+              <Button onClick={()=>post()} color="primary">
                 Post
               </Button>
             </DialogActions>
