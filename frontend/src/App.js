@@ -203,8 +203,18 @@ export default function App() {
   const handlePostClose = () => {
     setPostOpen(false);
   };
+  const [postBoard, setPostBoard] = useState("")
+  const [postContent, setPostContent] = useState("")
   const post = () => {
-
+    fetch('http://localhost:3001/post', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+          content: postContent,
+          board: postBoard
+      })
+    })
     setPostOpen(false);
   };
 
@@ -248,32 +258,32 @@ export default function App() {
                 Create a text post below. Ensure you read the rules of before posting.
               </DialogContentText>
               <FormControl className={classes.formControl}>
-                <InputLabel id="demo-simple-select-helper-label">Board</InputLabel>
+                <InputLabel>Board</InputLabel>
                 <Select
-                  //value={board}
-                  //onChange={handleChange}
+                  value={postBoard}
+                  onChange={(e)=>setPostBoard(e.target.value)}
                 >
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value={1}>Random</MenuItem>
-                  <MenuItem value={2}>Video Games</MenuItem>
-                  <MenuItem value={3}>Anime</MenuItem>
-                  <MenuItem value={4}>Music</MenuItem>
-                  <MenuItem value={5}>Fitness</MenuItem>
-                  <MenuItem value={6}>Weapons</MenuItem>
-                  <MenuItem value={7}>Science</MenuItem>
-                  <MenuItem value={8}>News</MenuItem>
+                  <MenuItem value={"1"}>Random</MenuItem>
+                  <MenuItem value={"2"}>Video Games</MenuItem>
+                  <MenuItem value={"3"}>Anime</MenuItem>
+                  <MenuItem value={"4"}>Music</MenuItem>
+                  <MenuItem value={"5"}>Fitness</MenuItem>
+                  <MenuItem value={"6"}>Weapons</MenuItem>
+                  <MenuItem value={"7"}>Science</MenuItem>
+                  <MenuItem value={"8"}>News</MenuItem>
                 </Select>
                 <FormHelperText>Select which board you want to post to</FormHelperText>
               </FormControl>
-              <TextField autoFocus label="Enter your post content here" fullWidth />
+              <TextField autoFocus label="Enter your post content here" onChange={(e)=>setPostContent(e.target.value)} fullWidth />
             </DialogContent>
             <DialogActions>
               <Button onClick={handlePostClose} color="primary">
                 Cancel
               </Button>
-              <Button onClick={handlePostClose} color="primary">
+              <Button onClick={()=>post} color="primary">
                 Post
               </Button>
             </DialogActions>

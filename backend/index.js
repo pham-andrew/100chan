@@ -1,6 +1,6 @@
 const express = require("express");
 var pg = require('pg')
-var db = new pg.Client('postgres://aaiwujkv:yU4INSawt5ecd9tYURzrX19SQLP_Q1yA@kashin.db.elephantsql.com/aaiwujkv')
+var db = new pg.Client('')
 db.connect()
 
 const PORT = process.env.PORT || 3001;
@@ -16,11 +16,16 @@ app.use(function(req, res, next) {
     next();
 });
 
+app.post('/post', function (req, res) {
+  console.log("getting something... " + req.body.content)
+  db.query('insert into ' + req.body.board + '(content) values ' + '(' + req.body.content + ');')
+})
+
 app.get("/api", (req, res) => {
-    db.query('select * from posts;')
-    .then(data => {
-        res.json(data.rows)
-    })
+  db.query('select * from posts;')
+  .then(data => {
+      res.json(data.rows)
+  })
 });
 
 app.get("/b", (req, res) => {
