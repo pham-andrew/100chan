@@ -19,7 +19,6 @@ app.use(function(req, res, next) {
 app.get("/api", (req, res) => {
     db.query('select * from posts;')
     .then(data => {
-        console.log("sending: " + data.rows)
         res.json(data.rows)
     })
 });
@@ -27,7 +26,13 @@ app.get("/api", (req, res) => {
 app.get("/b", (req, res) => {
   db.query('select * from random;')
   .then(data => {
-      console.log("sending: " + data.rows)
+      res.json(data.rows)
+  })
+});
+
+app.get("/v", (req, res) => {
+  db.query('select * from videogames;')
+  .then(data => {
       res.json(data.rows)
   })
 });
@@ -35,7 +40,41 @@ app.get("/b", (req, res) => {
 app.get("/a", (req, res) => {
   db.query('select * from anime;')
   .then(data => {
-      console.log("sending: " + data.rows)
+      res.json(data.rows)
+  })
+});
+
+app.get("/mu", (req, res) => {
+  db.query('select * from music;')
+  .then(data => {
+      res.json(data.rows)
+  })
+});
+
+app.get("/fit", (req, res) => {
+  db.query('select * from fitness;')
+  .then(data => {
+      res.json(data.rows)
+  })
+});
+
+app.get("/k", (req, res) => {
+  db.query('select * from weapons;')
+  .then(data => {
+      res.json(data.rows)
+  })
+});
+
+app.get("/sci", (req, res) => {
+  db.query('select * from science;')
+  .then(data => {
+      res.json(data.rows)
+  })
+});
+
+app.get("/news", (req, res) => {
+  db.query('select * from news;')
+  .then(data => {
       res.json(data.rows)
   })
 });

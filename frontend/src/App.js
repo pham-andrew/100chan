@@ -135,15 +135,57 @@ export default function App() {
         .then((res) => res.json())
         .then((data) => setData(data));
     }
+    async function v(){
+      await fetch("http://localhost:3001/v")
+        .then((res) => res.json())
+        .then((data) => setData(data));
+    }
     async function a(){
       await fetch("http://localhost:3001/a")
         .then((res) => res.json())
         .then((data) => setData(data));
     }
+    async function mu(){
+      await fetch("http://localhost:3001/mu")
+        .then((res) => res.json())
+        .then((data) => setData(data));
+    }
+    async function fit(){
+      await fetch("http://localhost:3001/fit")
+        .then((res) => res.json())
+        .then((data) => setData(data));
+    }
+    async function k(){
+      await fetch("http://localhost:3001/k")
+        .then((res) => res.json())
+        .then((data) => setData(data));
+    }
+    async function sci(){
+      await fetch("http://localhost:3001/sci")
+        .then((res) => res.json())
+        .then((data) => setData(data));
+    }
+    async function news(){
+      await fetch("http://localhost:3001/news")
+        .then((res) => res.json())
+        .then((data) => setData(data));
+    }
     if(board==='random')
       b()
+    if(board==='video games')
+      v()
     if(board==='anime')
       a()
+    if(board==='music')
+      mu()
+    if(board==='fitness')
+      fit()
+    if(board==='weapons')
+      k()
+    if(board==='science')
+      sci()
+    if(board==='news')
+      news()
   }, [board]);
 
   const [drawerOpen, setDrawerOpen] = React.useState(true);
@@ -260,7 +302,7 @@ export default function App() {
               </ListItemIcon>
               <ListItemText primary="Random" />
             </ListItem>
-            <ListItem button>
+            <ListItem button onClick={()=>setBoard("video games")}>
               <ListItemIcon>
                 <DesktopWindowsIcon />
               </ListItemIcon>
@@ -272,31 +314,31 @@ export default function App() {
               </ListItemIcon>
               <ListItemText primary="Anime" />
             </ListItem>
-            <ListItem button>
+            <ListItem button onClick={()=>setBoard("music")}>
               <ListItemIcon>
                 <MusicNoteIcon />
               </ListItemIcon>
               <ListItemText primary="Music" />
             </ListItem>
-            <ListItem button>
+            <ListItem button onClick={()=>setBoard("fitness")}>
               <ListItemIcon>
                 <FitnessCenterIcon />
               </ListItemIcon>
               <ListItemText primary="Fitness" />
             </ListItem>
-            <ListItem button>
+            <ListItem button onClick={()=>setBoard("weapons")}>
               <ListItemIcon>
                 <GpsNotFixedIcon />
               </ListItemIcon>
               <ListItemText primary="Weapons" />
             </ListItem>
-            <ListItem button>
+            <ListItem button onClick={()=>setBoard("science")}>
               <ListItemIcon>
                 <PublicIcon />
               </ListItemIcon>
               <ListItemText primary="Science" />
             </ListItem>
-            <ListItem button>
+            <ListItem button onClick={()=>setBoard("news")}>
               <ListItemIcon>
                 <NoteIcon />
               </ListItemIcon>
