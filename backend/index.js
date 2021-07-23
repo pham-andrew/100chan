@@ -24,6 +24,22 @@ app.get("/api", (req, res) => {
     })
 });
 
+app.get("/b", (req, res) => {
+  db.query('select * from random;')
+  .then(data => {
+      console.log("sending: " + data.rows)
+      res.json(data.rows)
+  })
+});
+
+app.get("/a", (req, res) => {
+  db.query('select * from anime;')
+  .then(data => {
+      console.log("sending: " + data.rows)
+      res.json(data.rows)
+  })
+});
+
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });

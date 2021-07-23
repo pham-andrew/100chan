@@ -127,15 +127,24 @@ const useStyles = makeStyles((theme) => ({
 export default function App() {
   const classes = useStyles();
 
+  const [board, setBoard] = useState("random")
   const [data, setData] = useState(null);
   useEffect(() => {
-    async function f(){
-      await fetch("http://localhost:3001/api")
+    async function b(){
+      await fetch("http://localhost:3001/b")
         .then((res) => res.json())
         .then((data) => setData(data));
     }
-    f()
-  }, []);
+    async function a(){
+      await fetch("http://localhost:3001/a")
+        .then((res) => res.json())
+        .then((data) => setData(data));
+    }
+    if(board==='random')
+      b()
+    if(board==='anime')
+      a()
+  }, [board]);
 
   const [drawerOpen, setDrawerOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -245,7 +254,7 @@ export default function App() {
         <Divider />
         <List>
           <div>
-            <ListItem button>
+            <ListItem button onClick={()=>setBoard("random")}>
               <ListItemIcon>
                 <CollectionsIcon />
               </ListItemIcon>
@@ -257,7 +266,7 @@ export default function App() {
               </ListItemIcon>
               <ListItemText primary="Video Games" />
             </ListItem>
-            <ListItem button>
+            <ListItem button onClick={()=>setBoard("anime")}>
               <ListItemIcon>
                 <FontDownloadIcon />
               </ListItemIcon>
