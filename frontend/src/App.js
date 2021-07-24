@@ -433,7 +433,7 @@ export default function App() {
                       <TextField autoFocus label="Enter your reply here" fullWidth />
                     </DialogContent>
                     <DialogActions>
-                      <Button color="primary">
+                      <Button color="primary" onClick={()=>handleReplyClose(p.id)}>
                         Cancel
                       </Button>
                       <Button color="primary">
@@ -450,7 +450,7 @@ export default function App() {
                       <TextField autoFocus label={p.content} onChange={(e)=>setEditContent(e.target.value)} fullWidth />
                     </DialogContent>
                     <DialogActions>
-                      <Button color="primary">
+                      <Button color="primary" onClick={()=>handleEditClose(p.id)}>
                         Cancel
                       </Button>
                       <Button color="primary" onClick={()=>edit(p.id)}>

@@ -1,6 +1,6 @@
 const express = require("express");
 var pg = require('pg')
-var db = new pg.Client('postgres://aaiwujkv:o3ttHrbvk7perUyhUelKDkBTdrplYHEt@kashin.db.elephantsql.com/aaiwujkv')
+var db = new pg.Client('postgres://aaiwujkv:SCBnBq2NvjBwwhLmbEEBT7U5-Uh8iJTo@kashin.db.elephantsql.com/aaiwujkv')
 db.connect()
 var bodyParser = require('body-parser')
 
