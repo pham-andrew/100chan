@@ -12,7 +12,7 @@ var jsonParser = bodyParser.json()
 
 var cors = require('cors')
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'http://143.198.70.43:80',
   credentials: true
 }))
 

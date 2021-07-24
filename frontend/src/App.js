@@ -158,7 +158,7 @@ export default function App() {
 
   const post = () => {
     const boardNames = ["random", "videogames", "anime", "music", "fitness", "weapons", "science", "news"]
-    fetch('http://localhost:3001/post', {
+    fetch('http://143.198.70.43:3001/post', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
@@ -171,7 +171,7 @@ export default function App() {
   };
 
   const del = (id) => {
-    fetch('http://localhost:3001/delete', {
+    fetch('http://143.198.70.43:3001/delete', {
       method: 'DELETE',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
@@ -201,7 +201,7 @@ export default function App() {
   };
   const edit = (id) => {
     console.log(editContent)
-    fetch('http://localhost:3001/put', {
+    fetch('http://143.198.70.43:3001/put', {
       method: 'PUT',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
@@ -218,42 +218,42 @@ export default function App() {
 
   useEffect(() => {
     async function b(){
-      await fetch("http://localhost:3001/b")
+      await fetch("http://143.198.70.43:3001/b")
         .then((res) => res.json())
         .then((data) => setData(data));
     }
     async function v(){
-      await fetch("http://localhost:3001/v")
+      await fetch("http://143.198.70.43:3001/v")
         .then((res) => res.json())
         .then((data) => setData(data));
     }
     async function a(){
-      await fetch("http://localhost:3001/a")
+      await fetch("http://143.198.70.43:3001/a")
         .then((res) => res.json())
         .then((data) => setData(data));
     }
     async function mu(){
-      await fetch("http://localhost:3001/mu")
+      await fetch("http://143.198.70.43:3001/mu")
         .then((res) => res.json())
         .then((data) => setData(data));
     }
     async function fit(){
-      await fetch("http://localhost:3001/fit")
+      await fetch("http://143.198.70.43:3001/fit")
         .then((res) => res.json())
         .then((data) => setData(data));
     }
     async function k(){
-      await fetch("http://localhost:3001/k")
+      await fetch("http://143.198.70.43:3001/k")
         .then((res) => res.json())
         .then((data) => setData(data));
     }
     async function sci(){
-      await fetch("http://localhost:3001/sci")
+      await fetch("http://143.198.70.43:3001/sci")
         .then((res) => res.json())
         .then((data) => setData(data));
     }
     async function news(){
-      await fetch("http://localhost:3001/news")
+      await fetch("http://143.198.70.43:3001/news")
         .then((res) => res.json())
         .then((data) => setData(data));
     }
@@ -289,7 +289,7 @@ export default function App() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            4ch
+            100chan
           </Typography>
           <IconButton color="inherit" onClick={handlePostOpen}>
             <Badge color="secondary">
