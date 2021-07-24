@@ -1,6 +1,6 @@
 const express = require("express");
 var pg = require('pg')
-var db = new pg.Client('postgres://aaiwujkv:SCBnBq2NvjBwwhLmbEEBT7U5-Uh8iJTo@kashin.db.elephantsql.com/aaiwujkv')
+var db = new pg.Client('')
 db.connect()
 var bodyParser = require('body-parser')
 
@@ -12,7 +12,7 @@ var jsonParser = bodyParser.json()
 
 var cors = require('cors')
 app.use(cors({
-  origin: 'http://143.198.70.43:80',
+  origin: 'http://100chan.org',
   credentials: true
 }))
 

@@ -167,7 +167,7 @@ export default function App() {
           board: boardNames[postBoard-1]
       })
     })
-    setPostOpen(false);
+    setTimeout(() => {  setPostOpen(false); }, 1000);
   };
 
   const del = (id) => {
@@ -180,7 +180,7 @@ export default function App() {
           board: board
       })
     })
-    setDeletions(deletions+1)
+    setTimeout(() => {  setDeletions(deletions+1) }, 1000);
   };
 
   const handleReplyOpen = (n) => {
@@ -212,7 +212,7 @@ export default function App() {
       })
     })
     setEditOpen({...editOpen, [id]: false})
-    setEdits(edits+1)
+    setTimeout(() => {  setEdits(edits+1) }, 1000);
   };
 
 
