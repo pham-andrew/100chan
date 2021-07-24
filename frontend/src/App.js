@@ -42,6 +42,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import ReplyIcon from '@material-ui/icons/Reply';
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 
 const drawerWidth = 240;
 
@@ -137,6 +138,9 @@ export default function App() {
   const [replyOpen, setReplyOpen] = useState({});
   const [data, setData] = useState(null);
   const [deletions, setDeletions] = useState(0)
+  const [edits, setEdits] = useState(0)
+  const [editOpen, setEditOpen] = useState({});
+  const [editContent, setEditContent] = useState("")
 
   const handleDrawerOpen = () => {
     setDrawerOpen(true);
@@ -188,6 +192,29 @@ export default function App() {
   const reply = () => {
     //TODO
   };
+
+  const handleEditOpen = (n) => {
+    setEditOpen({...editOpen, [n]: true});
+  };
+  const handleEditClose = (n) => {
+    setEditOpen({...editOpen, [n]: false});
+  };
+  const edit = (id) => {
+    console.log(editContent)
+    fetch('http://localhost:3001/put', {
+      method: 'PUT',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+          id: id,
+          board: board,
+          content: editContent
+      })
+    })
+    setEditOpen({...editOpen, [id]: false})
+    setEdits(edits+1)
+  };
+
 
   useEffect(() => {
     async function b(){
@@ -246,7 +273,7 @@ export default function App() {
       sci()
     if(board==='news')
       news()
-  }, [board, postOpen, deletions]);
+  }, [board, postOpen, deletions, edits]);
 
   return (
     <div className={classes.root}>
@@ -384,12 +411,15 @@ export default function App() {
           {data && data.map((p) => (
             <Paper className={classes.paper}>
               <Grid container spacing={3}>
-                <Grid item xs={10}>
+                <Grid item xs={9}>
                   <Typography>{p.content}</Typography>
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid item xs={3}>
                   <IconButton size={'small'} onClick={()=>del(p.id)}>
                     <DeleteIcon />
+                  </IconButton>
+                  <IconButton size={'small'} onClick={()=>handleEditOpen(p.id)}>
+                    <EditIcon />
                   </IconButton>
                   <IconButton size={'small'} onClick={()=>handleReplyOpen(p.id)}>
                     <ReplyIcon />
@@ -408,6 +438,23 @@ export default function App() {
                       </Button>
                       <Button color="primary">
                         Reply
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
+                  <Dialog onClose={()=>handleEditClose(p.id)} open={editOpen[p.id]}>
+                    <DialogTitle>Edit</DialogTitle>
+                    <DialogContent>
+                      <DialogContentText>
+                        Enter your edit below
+                      </DialogContentText>
+                      <TextField autoFocus label={p.content} onChange={(e)=>setEditContent(e.target.value)} fullWidth />
+                    </DialogContent>
+                    <DialogActions>
+                      <Button color="primary">
+                        Cancel
+                      </Button>
+                      <Button color="primary" onClick={()=>edit(p.id)}>
+                        Edit
                       </Button>
                     </DialogActions>
                   </Dialog>

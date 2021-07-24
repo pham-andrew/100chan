@@ -18,15 +18,17 @@ app.use(cors({
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
-    );
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "PUT")
     next();
 });
 
 app.post('/post', jsonParser, function (req, res) {
   db.query('insert into ' + req.body.board + ' (content) values ' + '(\'' + req.body.content + '\');')
+})
+
+app.put('/put', jsonParser, function (req, res) {
+  db.query('update ' + req.body.board + ' set content = \'' +  req.body.content + '\' where id=\'' + req.body.id + '\';')
 })
 
 app.delete("/delete", jsonParser, (req, res) => {
