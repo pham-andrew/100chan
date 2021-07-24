@@ -41,6 +41,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import ReplyIcon from '@material-ui/icons/Reply';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const drawerWidth = 240;
 
@@ -125,9 +126,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function App() {
+
   const classes = useStyles();
 
+  const [board, setBoard] = useState("random")
   const [drawerOpen, setDrawerOpen] = React.useState(true);
+  const [postOpen, setPostOpen] = React.useState(false);
+  const [postBoard, setPostBoard] = useState("")
+  const [postContent, setPostContent] = useState("")
+  const [replyOpen, setReplyOpen] = useState({});
+  const [data, setData] = useState(null);
+  const [deletions, setDeletions] = useState(0)
+
   const handleDrawerOpen = () => {
     setDrawerOpen(true);
   };
@@ -135,17 +145,14 @@ export default function App() {
     setDrawerOpen(false);
   };
 
-  const [postOpen, setPostOpen] = React.useState(false);
   const handlePostOpen = () => {
     setPostOpen(true);
   };
   const handlePostClose = () => {
     setPostOpen(false);
   };
-  const [postBoard, setPostBoard] = useState("")
-  const [postContent, setPostContent] = useState("")
+
   const post = () => {
-    console.log("posting " + postBoard)
     const boardNames = ["random", "videogames", "anime", "music", "fitness", "weapons", "science", "news"]
     fetch('http://localhost:3001/post', {
       method: 'POST',
@@ -159,7 +166,19 @@ export default function App() {
     setPostOpen(false);
   };
 
-  const [replyOpen, setReplyOpen] = useState({});
+  const del = (id) => {
+    fetch('http://localhost:3001/delete', {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+          id: id,
+          board: board
+      })
+    })
+    setDeletions(deletions+1)
+  };
+
   const handleReplyOpen = (n) => {
     setReplyOpen({...replyOpen, [n]: true});
   };
@@ -170,8 +189,6 @@ export default function App() {
     //TODO
   };
 
-  const [board, setBoard] = useState("random")
-  const [data, setData] = useState(null);
   useEffect(() => {
     async function b(){
       await fetch("http://localhost:3001/b")
@@ -229,7 +246,7 @@ export default function App() {
       sci()
     if(board==='news')
       news()
-  }, [board, postOpen]);
+  }, [board, postOpen, deletions]);
 
   return (
     <div className={classes.root}>
@@ -371,6 +388,9 @@ export default function App() {
                   <Typography>{p.content}</Typography>
                   </Grid>
                   <Grid item xs={2}>
+                  <IconButton size={'small'} onClick={()=>del(p.id)}>
+                    <DeleteIcon />
+                  </IconButton>
                   <IconButton size={'small'} onClick={()=>handleReplyOpen(p.id)}>
                     <ReplyIcon />
                   </IconButton>

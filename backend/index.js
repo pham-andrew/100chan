@@ -1,6 +1,6 @@
 const express = require("express");
 var pg = require('pg')
-var db = new pg.Client('postgres://aaiwujkv:yU4INSawt5ecd9tYURzrX19SQLP_Q1yA@kashin.db.elephantsql.com/aaiwujkv')
+var db = new pg.Client('postgres://aaiwujkv:o3ttHrbvk7perUyhUelKDkBTdrplYHEt@kashin.db.elephantsql.com/aaiwujkv')
 db.connect()
 var bodyParser = require('body-parser')
 
@@ -26,15 +26,11 @@ app.use(function(req, res, next) {
 });
 
 app.post('/post', jsonParser, function (req, res) {
-  console.log("getting something... " + req.body.board)
   db.query('insert into ' + req.body.board + ' (content) values ' + '(\'' + req.body.content + '\');')
 })
 
-app.get("/api", (req, res) => {
-  db.query('select * from posts;')
-  .then(data => {
-      res.json(data.rows)
-  })
+app.delete("/delete", jsonParser, (req, res) => {
+  db.query('delete from ' + req.body.board + ' where ' + 'id=' + req.body.id + ';')
 });
 
 app.get("/b", (req, res) => {
